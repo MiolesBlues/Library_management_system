@@ -40,17 +40,76 @@
       <section class="page-heading">
         <p class="section-label">Project Information</p>
         <h1>About This Project</h1>
-        <p class="page-text">This page will include the project description, team roles, design decisions, and accessibility notes.</p>
+        <p class="page-text">LibraryMS is a simple web application for managing books, members, and loans through one clear and user-friendly interface.</p>
       </section>
 
-      <section class="placeholder-card">
-        <h2>About Section</h2>
-        <p>Additional project details and supporting information will be added here.</p>
-        <ul class="integration-notes">
-          <li><strong>Planned content:</strong> project summary and academic context.</li>
-          <li><strong>Planned content:</strong> team roles and responsibilities.</li>
-          <li><strong>Planned content:</strong> accessibility and design decisions.</li>
-        </ul>
+      <section class="dashboard-section" aria-labelledby="about-overview-title">
+        <div class="section-header">
+          <div>
+            <p class="section-label">Overview</p>
+            <h2 id="about-overview-title">What the system does</h2>
+          </div>
+        </div>
+
+        <div class="management-grid" aria-label="About project summary">
+          <article class="management-card">
+            <div class="section-header compact-header">
+              <div>
+                <p class="section-label">Purpose</p>
+                <h3>Built for library record management</h3>
+              </div>
+            </div>
+            <p class="page-text">This project was created to demonstrate how a frontend website can work with a relational database using Supabase. It focuses on the core tasks needed in a small library system.</p>
+          </article>
+
+          <article class="management-card">
+            <div class="section-header compact-header">
+              <div>
+                <p class="section-label">Main Features</p>
+                <h3>Core parts of the project</h3>
+              </div>
+            </div>
+            <ul class="integration-notes">
+              <li>manage book records</li>
+              <li>manage member records</li>
+              <li>issue and return books</li>
+              <li>track overdue loans</li>
+              <li>show dashboard summary information</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="dashboard-layout" aria-label="Project details">
+        <article class="quick-actions-card">
+          <div class="section-header">
+            <div>
+              <p class="section-label">Technology</p>
+              <h2>Tools used in this project</h2>
+            </div>
+          </div>
+          <ul class="integration-notes">
+            <li>HTML, CSS, and JavaScript for the frontend</li>
+            <li>Supabase and PostgreSQL for the database</li>
+            <li>GitHub for version control and teamwork</li>
+          </ul>
+        </article>
+
+        <article class="guide-card">
+          <div class="section-header">
+            <div>
+              <p class="section-label">Current Pages</p>
+              <h2>How the system is organised</h2>
+            </div>
+          </div>
+          <ul class="integration-notes">
+            <li>Home shows dashboard summaries and quick links</li>
+            <li>Members supports CRUD actions and search</li>
+            <li>Loans supports issue, return, and overdue tracking</li>
+            <li>Books is prepared for book management work</li>
+            <li>ERD and SQL files explain the database structure</li>
+          </ul>
+        </article>
       </section>
     </div>
   </main>
@@ -58,7 +117,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>Library Management System Project</p>
-      <p>About page placeholder.</p>
+      <p>Simple project overview and system summary.</p>
     </div>
   </footer>
 

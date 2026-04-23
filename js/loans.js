@@ -5,7 +5,9 @@ const loansElements = {
   form: document.getElementById('loanForm'),
   resetButton: document.getElementById('resetLoanButton'),
   issueButton: document.getElementById('issueLoanButton'),
-  bookSelect: document.getElementById('loanBookId'),
+  bookInput: document.getElementById('loanBookInput'),
+  bookSuggestions: document.getElementById('loanBookSuggestions'),
+  bookId: document.getElementById('loanBookId'),
   memberSelect: document.getElementById('loanMemberId'),
   loanDate: document.getElementById('loanDate'),
   dueDate: document.getElementById('dueDate'),
@@ -79,6 +81,24 @@ function getLoansConfigMessage() {
   return 'Supabase is not configured yet. Add your project URL and anon key in js/config.js.';
 }
 
+function getFriendlyLoansError(error, fallbackMessage) {
+  const rawMessage = String(error?.message || '').toLowerCase();
+
+  if (rawMessage.includes('violates foreign key constraint')) {
+    return 'Please choose a valid book and member.';
+  }
+
+  if (rawMessage.includes('duplicate')) {
+    return 'This loan could not be saved because the same record already exists.';
+  }
+
+  if (rawMessage.includes('permission denied') || rawMessage.includes('row-level security')) {
+    return 'You do not have permission to do that.';
+  }
+
+  return error?.message || fallbackMessage;
+}
+
 function escapeHtml(value) {
   return String(value ?? '')
     .replaceAll('&', '&amp;')
@@ -113,8 +133,45 @@ function showOverduePlaceholder(message) {
   loansElements.overdueTableBody.innerHTML = `<tr><td colspan="5">${message}</td></tr>`;
 }
 
+function normalizeBookText(value) {
+  return String(value ?? '').trim().toLowerCase();
+}
+
+function findBookMatch(inputValue) {
+  const normalizedInput = normalizeBookText(inputValue);
+  if (!normalizedInput) {
+    return null;
+  }
+
+  const exactMatches = booksLookup.filter((book) => normalizeBookText(book.title) === normalizedInput);
+  if (exactMatches.length === 1) {
+    return exactMatches[0];
+  }
+
+  const containsMatches = booksLookup.filter((book) => normalizeBookText(book.title).includes(normalizedInput));
+  if (containsMatches.length === 1) {
+    return containsMatches[0];
+  }
+
+  return null;
+}
+
+function syncBookSelection(inputValue = loansElements.bookInput?.value || '') {
+  const selectedBook = findBookMatch(inputValue);
+
+  if (!selectedBook) {
+    loansElements.bookId.value = '';
+    return null;
+  }
+
+  loansElements.bookId.value = String(selectedBook.book_id);
+  loansElements.bookInput.value = selectedBook.title;
+  return selectedBook;
+}
+
 function resetLoanForm() {
   loansElements.form?.reset();
+  loansElements.bookId.value = '';
   const today = new Date();
   const due = new Date(today);
   due.setDate(due.getDate() + 14);
@@ -123,18 +180,26 @@ function resetLoanForm() {
 }
 
 function populateBookOptions() {
-  const currentSelection = loansElements.bookSelect.value;
-  const options = ['<option value="">Choose a book</option>'];
+  const currentBookId = loansElements.bookId.value;
+  const currentBook = booksLookup.find((book) => String(book.book_id) === String(currentBookId));
+  const options = [];
 
   booksLookup
     .filter((book) => Number(book.available_copies) > 0)
     .sort((a, b) => a.title.localeCompare(b.title))
     .forEach((book) => {
-      options.push(`<option value="${book.book_id}">${escapeHtml(book.title)} (${book.available_copies}/${book.total_copies} available)</option>`);
+      options.push(`<option value="${escapeHtml(book.title)}">${escapeHtml(book.title)} (${book.available_copies}/${book.total_copies} available)</option>`);
     });
 
-  loansElements.bookSelect.innerHTML = options.join('');
-  loansElements.bookSelect.value = currentSelection;
+  loansElements.bookSuggestions.innerHTML = options.join('');
+
+  if (currentBook) {
+    loansElements.bookInput.value = currentBook.title;
+    loansElements.bookId.value = String(currentBook.book_id);
+    return;
+  }
+
+  syncBookSelection();
 }
 
 function populateMemberOptions() {
@@ -327,29 +392,33 @@ async function loadLoans() {
 }
 
 function getLoanPayload() {
+  const selectedBook = syncBookSelection();
   const payload = {
-    book_id: Number(loansElements.bookSelect.value),
+    book_id: Number(loansElements.bookId.value),
     member_id: Number(loansElements.memberSelect.value),
     loan_date: loansElements.loanDate.value,
     due_date: loansElements.dueDate.value,
     status: 'active'
   };
 
-  if (!payload.book_id || !payload.member_id) {
-    throw new Error('Choose both a book and a member.');
+  if (!selectedBook || !payload.book_id) {
+    throw new Error('Please choose a book from the suggestions.');
+  }
+
+  if (!payload.member_id) {
+    throw new Error('Please choose a member.');
   }
 
   if (!payload.loan_date || !payload.due_date) {
-    throw new Error('Loan date and due date are required.');
+    throw new Error('Please enter both the loan date and due date.');
   }
 
   if (payload.due_date <= payload.loan_date) {
-    throw new Error('Due date must be later than loan date.');
+    throw new Error('The due date must be after the loan date.');
   }
 
-  const selectedBook = booksLookup.find((book) => Number(book.book_id) === payload.book_id);
-  if (!selectedBook || Number(selectedBook.available_copies) < 1) {
-    throw new Error('That book has no available copies right now.');
+  if (Number(selectedBook.available_copies) < 1) {
+    throw new Error('That book is not available right now.');
   }
 
   return payload;
@@ -395,7 +464,7 @@ async function issueLoan(event) {
     await loadLoans();
   } catch (error) {
     console.error('Loan issue error:', error);
-    setLoansStatus(error.message || 'Could not issue the loan.', 'error');
+    setLoansStatus(getFriendlyLoansError(error, 'Could not issue the loan.'), 'error');
     setLoansTimestamp('Last updated: save failed.');
   } finally {
     setLoansButtonState(false);
@@ -411,7 +480,7 @@ async function recordReturn(loanId) {
 
   const loan = loansData.find((item) => String(item.loan_id) === String(loanId));
   if (!loan) {
-    setLoansStatus('Loan record was not found.', 'error');
+    setLoansStatus('That loan record could not be found.', 'error');
     return;
   }
 
@@ -449,7 +518,7 @@ async function recordReturn(loanId) {
     await loadLoans();
   } catch (error) {
     console.error('Loan return error:', error);
-    setLoansStatus(error.message || 'Could not record the return.', 'error');
+    setLoansStatus(getFriendlyLoansError(error, 'Could not record the return.'), 'error');
     setLoansTimestamp('Last updated: return failed.');
   } finally {
     setLoansButtonState(false);
@@ -480,6 +549,8 @@ function initLoansPage() {
   loansElements.form?.addEventListener('submit', issueLoan);
   loansElements.resetButton?.addEventListener('click', resetLoanForm);
   loansElements.refreshButton?.addEventListener('click', loadLoans);
+  loansElements.bookInput?.addEventListener('input', () => syncBookSelection());
+  loansElements.bookInput?.addEventListener('change', () => syncBookSelection());
   loansElements.loansTableBody?.addEventListener('click', handleLoanTableClick);
 
   loadLoans();
