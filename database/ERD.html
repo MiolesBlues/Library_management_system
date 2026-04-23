@@ -4,84 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Library Management System — ERD</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 36px;
-    }
-    header h1 {
-      font-size: 1.6rem;
-      color: #1a2b4a;
-      margin-bottom: 6px;
-    }
-    header p {
-      font-size: 0.9rem;
-      color: #5a6a80;
-    }
-    #erd-container {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-      padding: 32px;
-      width: 100%;
-      max-width: 900px;
-    }
-    #erd-container svg { width: 100%; height: auto; }
-    .legend {
-      margin-top: 32px;
-      padding-top: 24px;
-      border-top: 1px solid #e4e8ee;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      font-size: 0.85rem;
-      color: #5a6a80;
-    }
-    .legend-item { display: flex; align-items: center; gap: 8px; }
-    .legend-badge {
-      padding: 3px 10px;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      letter-spacing: 0.03em;
-    }
-    .pk { background: #dbeafe; color: #1e40af; }
-    .fk { background: #fef3c7; color: #92400e; }
-    .rel-line { width: 32px; height: 2px; background: #6b7280; border-radius: 1px; }
-    footer {
-      margin-top: 28px;
-      font-size: 0.78rem;
-      color: #9aa5b4;
-      text-align: center;
-    }
-  </style>
+  <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-  <header>
+<body class="erd-page">
+  <header class="erd-header">
     <h1>Library Management System — Entity Relationship Diagram</h1>
     <p>Database Design &nbsp;|&nbsp; Member 2 Deliverable &nbsp;|&nbsp; WADT Group Project 2026</p>
   </header>
 
-  <div id="erd-container">
+  <div id="erd-container" class="erd-container">
     <div id="erd"></div>
-    <div class="legend">
-      <div class="legend-item"><span class="legend-badge pk">PK</span> Primary Key — unique identifier for each row</div>
-      <div class="legend-item"><span class="legend-badge fk">FK</span> Foreign Key — links to another table's PK</div>
-      <div class="legend-item"><div class="rel-line"></div> One-to-many relationship (||—o{)</div>
+    <div class="legend erd-legend">
+      <div class="legend-item"><span class="legend-badge pk erd-legend-badge">PK</span> Primary Key — unique identifier for each row</div>
+      <div class="legend-item"><span class="legend-badge fk erd-legend-badge">FK</span> Foreign Key — links to another table's PK</div>
+      <div class="legend-item"><div class="rel-line erd-rel-line"></div> One-to-many relationship (||—o{)</div>
     </div>
   </div>
 
-  <footer>Books ||—o{ Loans &nbsp;&nbsp;|&nbsp;&nbsp; Members ||—o{ Loans &nbsp;&nbsp;|&nbsp;&nbsp; One book / member can have many loan records</footer>
+  <footer class="erd-footer">Books ||—o{ Loans &nbsp;&nbsp;|&nbsp;&nbsp; Members ||—o{ Loans &nbsp;&nbsp;|&nbsp;&nbsp; One book / member can have many loan records</footer>
 
   <script type="module">
     import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';

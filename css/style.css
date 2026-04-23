@@ -456,6 +456,80 @@ button:focus-visible {
   }
 }
 
+/* ERD page */
+.erd-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  background: #f4f6f8;
+}
+
+.erd-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.erd-header h1 {
+  font-size: 1.6rem;
+  color: #1a2b4a;
+  margin-bottom: 6px;
+}
+
+.erd-header p {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  color: #5a6a80;
+}
+
+.erd-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 32px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.erd-container svg {
+  width: 100%;
+  height: auto;
+}
+
+.erd-legend {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e4e8ee;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: #5a6a80;
+}
+
+.erd-legend-badge {
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.erd-rel-line {
+  width: 32px;
+  height: 2px;
+  background: #6b7280;
+  border-radius: 1px;
+}
+
+.erd-footer {
+  margin-top: 28px;
+  font-size: 0.78rem;
+  color: #9aa5b4;
+  text-align: center;
+}
+
 @media (max-width: 560px) {
   .stats-grid {
     grid-template-columns: 1fr;
@@ -479,5 +553,17 @@ button:focus-visible {
 
   .stat-value {
     font-size: 1.8rem;
+  }
+
+  .erd-page {
+    padding: 32px 16px;
+  }
+
+  .erd-container {
+    padding: 24px;
+  }
+
+  .erd-header h1 {
+    font-size: 1.35rem;
   }
 }
