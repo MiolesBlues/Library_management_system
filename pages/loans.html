@@ -73,11 +73,11 @@
 
             <form id="loanForm" class="entity-form">
               <div class="form-grid">
-                <label class="select-field">
+                <label>
                   <span>Book</span>
-                  <select id="loanBookId" name="book_id" required>
-                    <option value="">Choose a book</option>
-                  </select>
+                  <input id="loanBookInput" name="book_search" type="text" list="loanBookSuggestions" placeholder="Start typing a book title" autocomplete="off" required />
+                  <datalist id="loanBookSuggestions"></datalist>
+                  <input id="loanBookId" name="book_id" type="hidden" required />
                 </label>
 
                 <label class="select-field">

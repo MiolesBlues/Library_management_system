@@ -82,6 +82,24 @@ function getMembersConfigMessage() {
   return 'Supabase is not configured yet. Add your project URL and anon key in js/config.js.';
 }
 
+function getFriendlyMembersError(error, fallbackMessage) {
+  const rawMessage = String(error?.message || '').toLowerCase();
+
+  if (rawMessage.includes('duplicate key value') || rawMessage.includes('members_email_key')) {
+    return 'That email address is already being used by another member.';
+  }
+
+  if (rawMessage.includes('violates foreign key constraint')) {
+    return 'This member cannot be deleted because there are still loan records linked to them.';
+  }
+
+  if (rawMessage.includes('permission denied') || rawMessage.includes('row-level security')) {
+    return 'You do not have permission to do that.';
+  }
+
+  return error?.message || fallbackMessage;
+}
+
 function showMembersPlaceholder(message) {
   if (!membersElements.tableBody) {
     return;
@@ -209,15 +227,15 @@ function getMemberPayload() {
   };
 
   if (!payload.full_name) {
-    throw new Error('Full name is required.');
+    throw new Error('Please enter the member name.');
   }
 
   if (!payload.email) {
-    throw new Error('Email is required.');
+    throw new Error('Please enter the email address.');
   }
 
   if (!payload.membership_date) {
-    throw new Error('Membership date is required.');
+    throw new Error('Please choose the membership date.');
   }
 
   return payload;
@@ -306,7 +324,7 @@ async function saveMember(event) {
     await loadMembers();
   } catch (error) {
     console.error('Members save error:', error);
-    setMembersStatus(error.message || 'Could not save the member record.', 'error');
+    setMembersStatus(getFriendlyMembersError(error, 'Could not save the member record.'), 'error');
     setMembersTimestamp('Last updated: save failed.');
   } finally {
     setMembersButtonState(false);
@@ -347,7 +365,7 @@ async function deleteMember(memberId) {
     await loadMembers();
   } catch (error) {
     console.error('Members delete error:', error);
-    setMembersStatus(error.message || 'Could not delete the member. Existing loans may still reference this record.', 'error');
+    setMembersStatus(getFriendlyMembersError(error, 'Could not delete the member.'), 'error');
     setMembersTimestamp('Last updated: delete failed.');
   } finally {
     setMembersButtonState(false);
