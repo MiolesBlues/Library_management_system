@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
@@ -16,15 +18,18 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="books.html">Books</a></li>
-          <li><a class="active" href="members.html">Members</a></li>
+          <li><a class="active" href="members.html" aria-current="page">Members</a></li>
           <li><a href="loans.html">Loans</a></li>
           <li><a href="about.html">About</a></li>
         </ul>
       </nav>
+      <button id="contrastToggle" class="contrast-button" type="button" aria-pressed="false" aria-label="Toggle high contrast mode">
+        High Contrast
+      </button>
     </div>
   </header>
 
-  <main class="page-main">
+  <main id="main-content" class="page-main">
     <div class="container">
       <section class="page-heading">
         <p class="section-label">Members Management</p>

@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
@@ -14,27 +16,55 @@
       </div>
       <nav class="site-nav" aria-label="Main navigation">
         <ul>
-          <li><a class="active" href="index.html">Home</a></li>
+          <li><a class="active" href="index.html" aria-current="page">Home</a></li>
           <li><a href="books.html">Books</a></li>
           <li><a href="members.html">Members</a></li>
           <li><a href="loans.html">Loans</a></li>
           <li><a href="about.html">About</a></li>
         </ul>
       </nav>
+      <button id="contrastToggle" class="contrast-button" type="button" aria-pressed="false" aria-label="Toggle high contrast mode">
+        High Contrast
+      </button>
     </div>
   </header>
 
-  <main class="page-main">
+  <main id="main-content" class="page-main">
     <div class="container">
-      <section class="hero-section">
-        <p class="section-label">Group Project</p>
-        <h1>Library Management System</h1>
-        <p class="hero-text">A structured web application for managing books, members, and loans using HTML, CSS, JavaScript, and Supabase.</p>
+      <section class="hero-section" aria-labelledby="hero-title">
+        <p class="section-label">Home Dashboard</p>
+        <h1 id="hero-title">Library Management System</h1>
+        <p class="hero-text">
+          A simple and structured web application for managing books, library members, and loans in one place.
+          The system is designed for clear navigation, readable content, and accessible interaction.
+        </p>
+        <div class="hero-actions">
+          <a class="button-primary" href="books.html">Go to Books</a>
+          <a class="button-secondary" href="about.html">View Project Info</a>
+        </div>
       </section>
 
-      <section class="placeholder-card">
-        <h2>Home / Dashboard</h2>
-        <p>This page will contain the dashboard overview, summary cards, and quick access to the main system sections.</p>
+      <section class="info-grid" aria-label="Project summary">
+        <article class="info-card">
+          <h2>Purpose</h2>
+          <p>The system helps manage books, members, and loan records through connected pages and a database-driven structure.</p>
+        </article>
+        <article class="info-card">
+          <h2>Technology</h2>
+          <p>Built with HTML, CSS, JavaScript, Supabase, and GitHub for teamwork, version control, and database integration.</p>
+        </article>
+        <article class="info-card">
+          <h2>Accessibility</h2>
+          <p>The interface uses clear headings, readable spacing, keyboard focus states, and a high contrast mode for users with low vision.</p>
+        </article>
+      </section>
+
+      <section class="placeholder-card" aria-labelledby="overview-title">
+        <h2 id="overview-title">Dashboard Overview</h2>
+        <p>
+          This homepage will later display summary cards for total books, total members, active loans, and overdue books.
+          It is currently prepared as the central navigation and overview page for the project.
+        </p>
       </section>
     </div>
   </main>
@@ -42,7 +72,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>Library Management System Project</p>
-      <p>Built for coursework collaboration and system integration.</p>
+      <p>Accessible, simple, and ready for team development.</p>
     </div>
   </footer>
 
