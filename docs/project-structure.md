@@ -16,7 +16,9 @@
 - `pages/about.html` - About page
 
 ## Shared frontend files
-- `css/style.css` - shared layout, responsive styles, accessibility states, and component styling
+- `css/style.css` - shared layout, responsive styles, accessibility states, form/table components, and status badges
 - `js/app.js` - contrast mode and dashboard loading logic
 - `js/supabase.js` - reusable Supabase client creation
 - `js/config.example.js` - sample configuration template for local setup
+- `js/members.js` - member CRUD page logic
+- `js/loans.js` - loan issue, return, and overdue tracking logic

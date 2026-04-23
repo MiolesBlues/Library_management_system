@@ -150,3 +150,5 @@ This repository currently contains:
 - Supabase connection scaffolding
 - dashboard data-loading preparation based on the project SQL schema
 - team handoff notes for coordinated development
+- a working Members page with CRUD operations
+- a working Loans page with issue, return, and overdue tracking flows
