@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Library Management System | Home</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="index.html">LibraryMS</a>
+      </div>
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul>
+          <li><a class="active" href="index.html" aria-current="page">Home</a></li>
+          <li><a href="books.html">Books</a></li>
+          <li><a href="members.html">Members</a></li>
+          <li><a href="loans.html">Loans</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+      <button id="contrastToggle" class="contrast-button" type="button" aria-pressed="false" aria-label="Toggle high contrast mode">
+        High Contrast
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content" class="page-main">
+    <div class="container">
+      <section class="hero-section" aria-labelledby="hero-title">
+        <p class="section-label">Home Dashboard</p>
+        <h1 id="hero-title">Library Management System</h1>
+        <p class="hero-text">
+          A simple and structured web application for managing books, library members, and loans in one place.
+          The homepage is designed to show the most important information first, so users can quickly understand where to go next.
+        </p>
+        <div class="hero-actions">
+          <a class="button-primary" href="books.html">Manage Books</a>
+          <a class="button-secondary" href="members.html">Manage Members</a>
+          <a class="button-secondary" href="loans.html">View Loans</a>
+        </div>
+      </section>
+
+      <section class="dashboard-section" aria-labelledby="summary-title">
+        <div class="section-header">
+          <div>
+            <p class="section-label">System Summary</p>
+            <h2 id="summary-title">Key information at a glance</h2>
+          </div>
+          <p class="section-note">Dashboard values are loaded from the books, members, and loans tables when Supabase is configured.</p>
+        </div>
+
+        <div class="dashboard-status" id="dashboardStatus" role="status" aria-live="polite">
+          Dashboard is waiting for database connection.
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card" aria-label="Total books">
+            <h3>Total Books</h3>
+            <p class="stat-value" id="totalBooks">--</p>
+            <p class="stat-help">Total number of records stored in the <strong>books</strong> table.</p>
+          </article>
+
+          <article class="stat-card" aria-label="Total members">
+            <h3>Total Members</h3>
+            <p class="stat-value" id="totalMembers">--</p>
+            <p class="stat-help">Total number of registered members in the <strong>members</strong> table.</p>
+          </article>
+
+          <article class="stat-card" aria-label="Active loans">
+            <h3>Active Loans</h3>
+            <p class="stat-value" id="activeLoans">--</p>
+            <p class="stat-help">Loan records in the <strong>loans</strong> table where status is <strong>active</strong>.</p>
+          </article>
+
+          <article class="stat-card" aria-label="Overdue books">
+            <h3>Overdue Books</h3>
+            <p class="stat-value" id="overdueBooks">--</p>
+            <p class="stat-help">Loan records in the <strong>loans</strong> table where status is <strong>overdue</strong>.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="dashboard-layout" aria-label="Dashboard quick access">
+        <article class="quick-actions-card">
+          <div class="section-header">
+            <div>
+              <p class="section-label">Quick Actions</p>
+              <h2>Go directly to the right section</h2>
+            </div>
+          </div>
+
+          <div class="action-list">
+            <a class="action-item" href="books.html">
+              <h3>Books</h3>
+              <p>View all books, add new records, or update book details.</p>
+            </a>
+            <a class="action-item" href="members.html">
+              <h3>Members</h3>
+              <p>Open the members page to manage user information and records.</p>
+            </a>
+            <a class="action-item" href="loans.html">
+              <h3>Loans</h3>
+              <p>Issue books, record returns, and review overdue items.</p>
+            </a>
+            <a class="action-item" href="about.html">
+              <h3>About Project</h3>
+              <p>Read the project overview, design notes, and team responsibilities.</p>
+            </a>
+          </div>
+        </article>
+
+        <article class="guide-card">
+          <div class="section-header">
+            <div>
+              <p class="section-label">User Guide</p>
+              <h2>How to use this system</h2>
+            </div>
+          </div>
+
+          <ol class="guide-list">
+            <li>Start from the summary cards to understand the current library status.</li>
+            <li>Use the quick action buttons to open the section you need.</li>
+            <li>Manage books, members, or loans from their dedicated pages.</li>
+            <li>Use the high contrast button if stronger visual clarity is needed.</li>
+          </ol>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>Library Management System Project</p>
+      <p>Accessible, simple, and ready for team development.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>
