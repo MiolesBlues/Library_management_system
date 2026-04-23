@@ -1,7 +1,7 @@
 # Team Integration Guide
 
 ## Purpose
-This guide explains how each team member should continue development inside the shared project structure without breaking the existing layout, navigation, accessibility features, or dashboard setup.
+This guide explains how each team member should continue development inside the shared project structure without breaking the existing layout, navigation, accessibility features, branding, or dashboard setup.
 
 ## Shared rules
 - Keep the existing file and folder structure.
@@ -9,9 +9,10 @@ This guide explains how each team member should continue development inside the 
 - Reuse `js/app.js` only for shared frontend logic.
 - Reuse `js/supabase.js` for database client access.
 - Do not hardcode real credentials into tracked files.
-- Keep page headings, navigation, and footer structure consistent across all pages.
+- Keep page headings, navigation, brand block, and footer structure consistent across all pages.
 - Maintain keyboard accessibility and focus states.
 - Preserve the high contrast mode button on every page.
+- If you edit shared files, pull the latest version first to reduce merge conflicts.
 
 ## File ownership suggestion
 ### Member 1 - Project Coordinator / Home Page
@@ -21,7 +22,7 @@ This guide explains how each team member should continue development inside the 
 - final cleanup
 
 ### Member 2 - Database Designer
-- `database/library_setup.sql`
+- `database/database_setup.sql`
 - `database/ERD.html`
 - Supabase table setup and data verification
 
@@ -65,19 +66,28 @@ Planned integration areas:
 - active loans table
 - overdue loans table
 
-## Accessibility expectations
-When adding forms or tables:
+### Database area
+The SQL script already includes:
+- the three core tables
+- sample records
+- indexes for loans
+- optional helper views for active loans, overdue loans, and dashboard summary
+
+## Accessibility and UI expectations
+When adding forms, tables, or new sections:
 - use clear labels
 - keep heading order correct
 - ensure buttons are descriptive
 - preserve visible focus outlines
 - check mobile layout before committing
+- keep the shared LibraryMS header branding intact unless the team agrees on a redesign
 
 ## Commit guidance
 - Use small logical commits
 - Write meaningful commit messages
 - Avoid mixing unrelated changes in one commit
 - Pull latest changes before editing shared files
+- Be extra careful when editing `css/style.css` or shared header markup because they affect all pages
 
 ## Final reminder
-The current project already includes shared navigation, responsive layout, accessible structure, contrast mode support, and dashboard preparation. Build on top of it instead of replacing the shared foundation.
+The current project already includes shared navigation, responsive layout, accessible structure, contrast mode support, dashboard preparation, shared header branding, and a standalone ERD page. Build on top of this foundation instead of replacing it.

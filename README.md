@@ -5,13 +5,13 @@ A database-driven web application for managing books, library members, and book 
 ## Project Overview
 This project is being developed as a group coursework submission. The system is designed to demonstrate relational database design, CRUD functionality, frontend integration, version control, and teamwork.
 
-The application will allow users to:
-- view and manage books
-- view and manage library members
-- issue books to members
-- record returns
-- track overdue books
-- view summary information on the dashboard
+The application is structured to support:
+- viewing and managing books
+- viewing and managing library members
+- issuing books to members
+- recording returns
+- tracking overdue books
+- showing summary information on the dashboard
 
 ## Project Aim
 The aim of this project is to design and develop a simple web application that integrates a frontend interface with a relational database using Supabase.
@@ -32,26 +32,26 @@ The aim of this project is to design and develop a simple web application that i
 - Supabase (PostgreSQL)
 - GitHub
 
-## Planned Pages
-- **Home / Dashboard** - summary cards and project introduction
-- **Books** - view, add, edit, and delete books
-- **Members** - view, add, edit, and delete members
-- **Loans** - issue books, record returns, and view overdue loans
-- **About** - project information, team roles, and design decisions
+## Current Pages
+- **Home / Dashboard** - responsive homepage with summary cards, quick actions, and user guidance
+- **Books** - shared layout and placeholder area for future CRUD features
+- **Members** - shared layout and placeholder area for future CRUD features
+- **Loans** - shared layout and placeholder area for future loan workflows
+- **About** - project information placeholder page
+- **ERD** - standalone database diagram page in `database/ERD.html`
 
 ## Folder Structure
 - `pages/` - main HTML pages
-- `css/` - shared stylesheets
-- `js/` - JavaScript files and Supabase configuration
-- `assets/` - images, icons, and static assets
-- `database/` - SQL setup scripts, ERD files, and sample data
+- `css/` - shared stylesheet used across the site, including the ERD page
+- `js/` - JavaScript files and Supabase configuration helpers
+- `database/` - SQL setup script and ERD page
 - `docs/` - planning notes and supporting project documentation
 
 ## Database Tables
 The system is based on three main relational tables:
-- **Books**
-- **Members**
-- **Loans**
+- **books**
+- **members**
+- **loans**
 
 ### Books Table
 - `book_id` (Primary Key)
@@ -78,6 +78,26 @@ The system is based on three main relational tables:
 - `due_date`
 - `return_date`
 - `status`
+
+## Database Assets
+The repository currently includes:
+- `database/database_setup.sql` - main SQL script for creating tables, indexes, sample data, and optional views
+- `database/ERD.html` - browser-viewable ERD page rendered with Mermaid
+
+The SQL script also defines optional helper views:
+- `v_active_loans`
+- `v_overdue_loans`
+- `v_dashboard_summary`
+
+## Shared Frontend Features
+The current frontend already includes:
+- shared navigation and footer across pages
+- responsive layout using a single shared stylesheet
+- high contrast mode toggle
+- dashboard status messaging
+- homepage summary cards prepared for Supabase data
+- shared header branding with a LibraryMS logo block
+- ERD page styling moved into the shared stylesheet for consistency
 
 ## Team Roles
 ### Member 1 - Project Coordinator / Home Page Developer
@@ -114,11 +134,13 @@ To support teamwork and clear version tracking, all team members should:
 - upload progress weekly
 - work on their assigned sections
 - avoid overwriting another member's files without discussion
+- pull the latest changes before editing shared files such as `css/style.css` and page headers
 
 ## Running the Project
-At the current stage, the project can be opened directly in a browser by loading the HTML files from the `pages/` folder.
+At the current stage, the main website can be opened directly in a browser by loading the HTML files from the `pages/` folder.
 
-Later stages will connect the frontend to Supabase using JavaScript.
+The ERD page can be opened separately from:
+- `database/ERD.html`
 
 ## Supabase Configuration
 Supabase integration is prepared through a scaffolded frontend setup.
@@ -130,7 +152,7 @@ Supabase integration is prepared through a scaffolded frontend setup.
 - `docs/supabase-setup.md` - setup instructions for the team
 
 ### Current dashboard data mapping
-The homepage dashboard is prepared to load summary values from the SQL schema used in this project:
+The homepage dashboard currently loads summary values using direct table counts:
 - `books` table -> total books count
 - `members` table -> total members count
 - `loans` table with `status = 'active'` -> active loans count
@@ -140,13 +162,17 @@ The homepage dashboard is prepared to load summary values from the SQL schema us
 - never commit real project credentials to the repository
 - only use the public anon key in frontend code
 - keep service role keys out of the browser
+- `js/config.js` should stay local if it contains real values
 
 ## Current Status
 This repository currently contains:
-- the initial project folder structure
-- shared navigation and layout across pages
-- an accessible and responsive homepage dashboard
+- a shared multi-page frontend structure
+- a responsive and accessible homepage dashboard layout
+- placeholder pages for Books, Members, Loans, and About
 - high contrast mode support
 - Supabase connection scaffolding
-- dashboard data-loading preparation based on the project SQL schema
-- team handoff notes for coordinated development
+- dashboard data-loading logic in `js/app.js`
+- a completed SQL setup script with sample data and optional views
+- a standalone ERD page using Mermaid
+- unified shared branding in the page header
+- synced shared styling between the main site and the ERD page
