@@ -118,17 +118,17 @@ VALUES
 
 INSERT INTO loans (book_id, member_id, loan_date, due_date, return_date, status)
 VALUES
-    (3, 1, '2025-04-01', '2025-04-15', NULL,         'overdue'),   -- Alice:  The Great Gatsby,   overdue
-    (4, 2, '2025-04-10', '2025-04-24', NULL,         'active'),    -- Brian:  Harry Potter,        active
-    (6, 3, '2025-03-20', '2025-04-03', '2025-04-02', 'returned'),  -- Claire: Atomic Habits,       returned
-    (6, 4, '2025-04-15', '2025-04-29', NULL,         'active'),    -- David:  Atomic Habits,       active
-    (1, 5, '2025-03-25', '2025-04-08', NULL,         'overdue'),   -- Emma:   To Kill a Mockingbird, overdue
-    (7, 1, '2025-04-12', '2025-04-26', NULL,         'active'),    -- Alice:  Sapiens,             active
-    (4, 3, '2025-03-01', '2025-03-15', '2025-03-14', 'returned'),  -- Claire: Harry Potter,        returned
-    (5, 2, '2025-04-18', '2025-05-02', NULL,         'active');    -- Brian:  The Hobbit,          active
+    (3, 1, '2025-04-01', '2025-04-15', NULL,         'overdue'),   -- Alice:  The Great Gatsby,        overdue
+    (4, 2, '2025-04-10', '2025-04-24', NULL,         'active'),    -- Brian:  Harry Potter,            active
+    (6, 3, '2025-03-20', '2025-04-03', '2025-04-02', 'returned'),  -- Claire: Atomic Habits,           returned
+    (6, 4, '2025-04-15', '2025-04-29', NULL,         'active'),    -- David:  Atomic Habits,           active
+    (1, 5, '2025-03-25', '2025-04-08', NULL,         'overdue'),   -- Emma:   To Kill a Mockingbird,   overdue
+    (7, 1, '2025-04-12', '2025-04-26', NULL,         'active'),    -- Alice:  Sapiens,                 active
+    (4, 3, '2025-03-01', '2025-03-15', '2025-03-14', 'returned'),  -- Claire: Harry Potter,            returned
+    (5, 2, '2025-04-18', '2025-05-02', NULL,         'active');    -- Brian:  The Hobbit,              active
 
 -- ============================================================
--- Views (optional but recommended for the frontend)
+-- Views (recommended for the frontend)
 -- These can be queried from JavaScript just like regular tables
 -- ============================================================
 
@@ -167,6 +167,35 @@ SELECT
     (SELECT COUNT(*) FROM members)                        AS total_members,
     (SELECT COUNT(*) FROM loans WHERE status = 'active')  AS active_loans,
     (SELECT COUNT(*) FROM loans WHERE status = 'overdue') AS overdue_loans;
+
+-- ============================================================
+-- Row Level Security (RLS) and Policies
+-- RLS is enabled on all tables so Supabase allows access
+-- Policies give full public access since there is no login system
+-- ============================================================
+
+-- Enable RLS on all tables
+ALTER TABLE books   ENABLE ROW LEVEL SECURITY;
+ALTER TABLE members ENABLE ROW LEVEL SECURITY;
+ALTER TABLE loans   ENABLE ROW LEVEL SECURITY;
+
+-- Books policies
+CREATE POLICY "Public read access"   ON books FOR SELECT USING (true);
+CREATE POLICY "Public insert access" ON books FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public update access" ON books FOR UPDATE USING (true);
+CREATE POLICY "Public delete access" ON books FOR DELETE USING (true);
+
+-- Members policies
+CREATE POLICY "Public read access"   ON members FOR SELECT USING (true);
+CREATE POLICY "Public insert access" ON members FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public update access" ON members FOR UPDATE USING (true);
+CREATE POLICY "Public delete access" ON members FOR DELETE USING (true);
+
+-- Loans policies
+CREATE POLICY "Public read access"   ON loans FOR SELECT USING (true);
+CREATE POLICY "Public insert access" ON loans FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public update access" ON loans FOR UPDATE USING (true);
+CREATE POLICY "Public delete access" ON loans FOR DELETE USING (true);
 
 -- ============================================================
 -- End of Script

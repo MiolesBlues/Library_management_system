@@ -15,23 +15,23 @@ This guide explains how each team member should continue development inside the 
 - If you edit shared files, pull the latest version first to reduce merge conflicts.
 
 ## File ownership suggestion
-### Member 1 - Project Coordinator / Home Page
+### Member 1 - Project Coordinator / Home Page      - Vladyslav Vit
 - `pages/index.html`
 - shared layout review
 - integration checks
 - final cleanup
 
-### Member 2 - Database Designer
+### Member 2 - Database Designer                    - Galo Sammartino
 - `database/database_setup.sql`
 - `database/ERD.html`
 - Supabase table setup and data verification
 
-### Member 3 - Books Page Developer
+### Member 3 - Books Page Developer                 - Khalid Mohamed
 - `pages/books.html`
 - books-related sections in `js/app.js` if shared
 - future book-specific scripts if needed
 
-### Member 4 - Members and Loans Developer
+### Member 4 - Members and Loans Developer          - Arsen Pariienko
 - `pages/members.html`
 - `pages/loans.html`
 - members and loans related UI sections
