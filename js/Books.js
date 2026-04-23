@@ -1,8 +1,8 @@
 // books.js — Member 3: Books Page
 // Handles all CRUD operations for the books table via Supabase
 
-const SUPABASE_URL = 'https://gxwdcizgjehhztzhwnvf.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4d2RjaXpnamVoaHp0emh3bnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4ODg3MTgsImV4cCI6MjA5MjQ2NDcxOH0.LZshN13QMYCdH0xJUmnucTZf5WUhRQ1zHWft2lkUZ6A';
+const SUPABASE_URL = 'https://yumiprxowxohxitqczpi.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1bWlwcnhvd3hvaHhpdHFjenBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NTYwMjAsImV4cCI6MjA5MjUzMjAyMH0.tZKs2jeSxWOKGmcTCBaEWzrhJD4JP7pGynFh9HsGkLg';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
