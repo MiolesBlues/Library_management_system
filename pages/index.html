@@ -36,35 +36,95 @@
         <h1 id="hero-title">Library Management System</h1>
         <p class="hero-text">
           A simple and structured web application for managing books, library members, and loans in one place.
-          The system is designed for clear navigation, readable content, and accessible interaction.
+          The homepage is designed to show the most important information first, so users can quickly understand where to go next.
         </p>
         <div class="hero-actions">
-          <a class="button-primary" href="books.html">Go to Books</a>
-          <a class="button-secondary" href="about.html">View Project Info</a>
+          <a class="button-primary" href="books.html">Manage Books</a>
+          <a class="button-secondary" href="members.html">Manage Members</a>
+          <a class="button-secondary" href="loans.html">View Loans</a>
         </div>
       </section>
 
-      <section class="info-grid" aria-label="Project summary">
-        <article class="info-card">
-          <h2>Purpose</h2>
-          <p>The system helps manage books, members, and loan records through connected pages and a database-driven structure.</p>
-        </article>
-        <article class="info-card">
-          <h2>Technology</h2>
-          <p>Built with HTML, CSS, JavaScript, Supabase, and GitHub for teamwork, version control, and database integration.</p>
-        </article>
-        <article class="info-card">
-          <h2>Accessibility</h2>
-          <p>The interface uses clear headings, readable spacing, keyboard focus states, and a high contrast mode for users with low vision.</p>
-        </article>
+      <section class="dashboard-section" aria-labelledby="summary-title">
+        <div class="section-header">
+          <div>
+            <p class="section-label">System Summary</p>
+            <h2 id="summary-title">Key information at a glance</h2>
+          </div>
+          <p class="section-note">These cards will later connect to Supabase and display live system data.</p>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card" aria-label="Total books">
+            <h3>Total Books</h3>
+            <p class="stat-value">--</p>
+            <p class="stat-help">Number of books currently stored in the library system.</p>
+          </article>
+
+          <article class="stat-card" aria-label="Total members">
+            <h3>Total Members</h3>
+            <p class="stat-value">--</p>
+            <p class="stat-help">Registered members who can borrow books from the library.</p>
+          </article>
+
+          <article class="stat-card" aria-label="Active loans">
+            <h3>Active Loans</h3>
+            <p class="stat-value">--</p>
+            <p class="stat-help">Books that are currently issued and not yet returned.</p>
+          </article>
+
+          <article class="stat-card" aria-label="Overdue books">
+            <h3>Overdue Books</h3>
+            <p class="stat-value">--</p>
+            <p class="stat-help">Loans that have passed the due date and need attention.</p>
+          </article>
+        </div>
       </section>
 
-      <section class="placeholder-card" aria-labelledby="overview-title">
-        <h2 id="overview-title">Dashboard Overview</h2>
-        <p>
-          This homepage will later display summary cards for total books, total members, active loans, and overdue books.
-          It is currently prepared as the central navigation and overview page for the project.
-        </p>
+      <section class="dashboard-layout" aria-label="Dashboard quick access">
+        <article class="quick-actions-card">
+          <div class="section-header">
+            <div>
+              <p class="section-label">Quick Actions</p>
+              <h2>Go directly to the right section</h2>
+            </div>
+          </div>
+
+          <div class="action-list">
+            <a class="action-item" href="books.html">
+              <h3>Books</h3>
+              <p>View all books, add new records, or update book details.</p>
+            </a>
+            <a class="action-item" href="members.html">
+              <h3>Members</h3>
+              <p>Open the members page to manage user information and records.</p>
+            </a>
+            <a class="action-item" href="loans.html">
+              <h3>Loans</h3>
+              <p>Issue books, record returns, and review overdue items.</p>
+            </a>
+            <a class="action-item" href="about.html">
+              <h3>About Project</h3>
+              <p>Read the project overview, design notes, and team responsibilities.</p>
+            </a>
+          </div>
+        </article>
+
+        <article class="guide-card">
+          <div class="section-header">
+            <div>
+              <p class="section-label">User Guide</p>
+              <h2>How to use this system</h2>
+            </div>
+          </div>
+
+          <ol class="guide-list">
+            <li>Start from the summary cards to understand the current library status.</li>
+            <li>Use the quick action buttons to open the section you need.</li>
+            <li>Manage books, members, or loans from their dedicated pages.</li>
+            <li>Use the high contrast button if stronger visual clarity is needed.</li>
+          </ol>
+        </article>
       </section>
     </div>
   </main>
