@@ -34,17 +34,138 @@
       <section class="page-heading">
         <p class="section-label">Loans Management</p>
         <h1>Loans Page</h1>
-        <p class="page-text">This page will handle issuing books, recording returns, and highlighting overdue loans.</p>
+        <p class="page-text">Issue books, record returns, and monitor overdue loans from one workspace.</p>
       </section>
 
-      <section class="placeholder-card">
-        <h2>Loans Operations Area</h2>
-        <p>Loan forms, tables, and return status controls will be added later.</p>
-        <ul class="integration-notes">
-          <li><strong>Planned section:</strong> form for issuing books to members.</li>
-          <li><strong>Planned section:</strong> active loans table and overdue loans table.</li>
-          <li><strong>Planned action:</strong> return book update control for active records.</li>
-        </ul>
+      <section class="dashboard-section" aria-labelledby="loans-workspace-title">
+        <div class="section-header">
+          <div>
+            <p class="section-label">Loans Workspace</p>
+            <h2 id="loans-workspace-title">Manage active and overdue loans</h2>
+          </div>
+          <div class="dashboard-meta">
+            <p class="section-note">This page will use the <strong>loans</strong>, <strong>books</strong>, and <strong>members</strong> tables in Supabase.</p>
+            <div class="dashboard-tools">
+              <button class="button-secondary dashboard-retry" id="refreshLoansButton" type="button">Refresh loans</button>
+              <p class="dashboard-timestamp" id="loansTimestamp">Last updated: not loaded yet.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-status" id="loansStatus" role="status" aria-live="polite">
+          Loans page is waiting for database connection.
+        </div>
+
+        <section class="management-grid" aria-label="Loan tools">
+          <article class="management-card">
+            <div class="section-header compact-header">
+              <div>
+                <p class="section-label">Issue Loan</p>
+                <h3>Create a new loan record</h3>
+              </div>
+            </div>
+
+            <form id="loanForm" class="entity-form">
+              <div class="form-grid">
+                <label class="select-field">
+                  <span>Book</span>
+                  <select id="loanBookId" name="book_id" required>
+                    <option value="">Choose a book</option>
+                  </select>
+                </label>
+
+                <label class="select-field">
+                  <span>Member</span>
+                  <select id="loanMemberId" name="member_id" required>
+                    <option value="">Choose a member</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Loan date</span>
+                  <input id="loanDate" name="loan_date" type="date" required />
+                </label>
+
+                <label>
+                  <span>Due date</span>
+                  <input id="dueDate" name="due_date" type="date" required />
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button class="button-primary" id="issueLoanButton" type="submit">Issue loan</button>
+                <button class="button-secondary" id="resetLoanButton" type="button">Clear form</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="management-card">
+            <div class="section-header compact-header">
+              <div>
+                <p class="section-label">Current Loans</p>
+                <h3>Track active and overdue items</h3>
+              </div>
+            </div>
+
+            <div class="records-toolbar">
+              <div class="summary-pills" aria-label="Loans summary">
+                <p class="summary-pill"><span>Active</span><strong id="activeLoansCount">0</strong></p>
+                <p class="summary-pill"><span>Overdue</span><strong id="overdueLoansCount">0</strong></p>
+                <p class="summary-pill"><span>Returned</span><strong id="returnedLoansCount">0</strong></p>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table" aria-describedby="loansTableHelp">
+                <thead>
+                  <tr>
+                    <th scope="col">Book</th>
+                    <th scope="col">Member</th>
+                    <th scope="col">Loan date</th>
+                    <th scope="col">Due date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="loansTableBody">
+                  <tr>
+                    <td colspan="6">Loans will appear here after loading.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="table-help" id="loansTableHelp">Returned records stay in history. Active and overdue records are shown here for action.</p>
+          </article>
+        </section>
+
+        <section class="management-card" aria-labelledby="overdue-records-title">
+          <div class="section-header compact-header">
+            <div>
+              <p class="section-label">Overdue Records</p>
+              <h3 id="overdue-records-title">Loans that need attention</h3>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table" aria-describedby="overdueTableHelp">
+              <thead>
+                <tr>
+                  <th scope="col">Book</th>
+                  <th scope="col">Member</th>
+                  <th scope="col">Due date</th>
+                  <th scope="col">Days overdue</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody id="overdueTableBody">
+                <tr>
+                  <td colspan="5">Overdue loans will appear here after loading.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-help" id="overdueTableHelp">Overdue loans are highlighted separately so the team can follow up quickly.</p>
+        </section>
       </section>
     </div>
   </main>
@@ -52,10 +173,14 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>Library Management System Project</p>
-      <p>Loans module placeholder.</p>
+      <p>Loans module workspace ready for issue and return flows.</p>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/loans.js"></script>
 </body>
 </html>
