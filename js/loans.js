@@ -123,24 +123,32 @@ function resetLoanForm() {
 }
 
 function populateBookOptions() {
+  const currentSelection = loansElements.bookSelect.value;
   const options = ['<option value="">Choose a book</option>'];
+
   booksLookup
     .filter((book) => Number(book.available_copies) > 0)
     .sort((a, b) => a.title.localeCompare(b.title))
     .forEach((book) => {
       options.push(`<option value="${book.book_id}">${escapeHtml(book.title)} (${book.available_copies}/${book.total_copies} available)</option>`);
     });
+
   loansElements.bookSelect.innerHTML = options.join('');
+  loansElements.bookSelect.value = currentSelection;
 }
 
 function populateMemberOptions() {
+  const currentSelection = loansElements.memberSelect.value;
   const options = ['<option value="">Choose a member</option>'];
+
   membersLookup
     .sort((a, b) => a.full_name.localeCompare(b.full_name))
     .forEach((member) => {
       options.push(`<option value="${member.member_id}">${escapeHtml(member.full_name)} (${escapeHtml(member.email)})</option>`);
     });
+
   loansElements.memberSelect.innerHTML = options.join('');
+  loansElements.memberSelect.value = currentSelection;
 }
 
 function updateLoanCounters() {
@@ -151,6 +159,14 @@ function updateLoanCounters() {
   loansElements.counters.active.textContent = String(active);
   loansElements.counters.overdue.textContent = String(overdue);
   loansElements.counters.returned.textContent = String(returned);
+}
+
+function daysOverdue(dueDate) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const due = new Date(`${dueDate}T00:00:00`);
+  const diffMs = today.getTime() - due.getTime();
+  return Math.max(0, Math.floor(diffMs / 86400000));
 }
 
 function renderLoansTables() {
@@ -172,7 +188,7 @@ function renderLoansTables() {
           <td>${statusBadge(loan.status)}</td>
           <td>
             <div class="table-actions">
-              <button class="button-secondary table-button" type="button" disabled>Return coming next</button>
+              <button class="button-secondary table-button" type="button" data-action="return" data-loan-id="${loan.loan_id}">Record return</button>
             </div>
           </td>
         </tr>
@@ -189,7 +205,7 @@ function renderLoansTables() {
           <td><strong>${escapeHtml(loan.books?.title || 'Unknown book')}</strong></td>
           <td>${escapeHtml(loan.members?.full_name || 'Unknown member')}</td>
           <td>${escapeHtml(formatDate(loan.due_date))}</td>
-          <td>Needs overdue sync</td>
+          <td>${escapeHtml(daysOverdue(loan.due_date))}</td>
           <td>${statusBadge(loan.status)}</td>
         </tr>
       `)
@@ -223,6 +239,34 @@ async function loadLoanDependencies(supabase) {
   populateMemberOptions();
 }
 
+async function syncOverdueLoans(supabase) {
+  const today = new Date().toISOString().slice(0, 10);
+  const { data, error } = await supabase
+    .from('loans')
+    .select('loan_id')
+    .eq('status', 'active')
+    .lt('due_date', today)
+    .is('return_date', null);
+
+  if (error) {
+    throw error;
+  }
+
+  if (!data?.length) {
+    return;
+  }
+
+  const loanIds = data.map((loan) => loan.loan_id);
+  const updateResponse = await supabase
+    .from('loans')
+    .update({ status: 'overdue' })
+    .in('loan_id', loanIds);
+
+  if (updateResponse.error) {
+    throw updateResponse.error;
+  }
+}
+
 async function loadLoans() {
   if (!hasLoansPage()) {
     return;
@@ -242,6 +286,7 @@ async function loadLoans() {
 
   try {
     await loadLoanDependencies(supabase);
+    await syncOverdueLoans(supabase);
 
     const { data, error } = await supabase
       .from('loans')
@@ -357,6 +402,72 @@ async function issueLoan(event) {
   }
 }
 
+async function recordReturn(loanId) {
+  const supabase = getLoansClient();
+  if (!supabase) {
+    setLoansStatus(getLoansConfigMessage(), 'warning');
+    return;
+  }
+
+  const loan = loansData.find((item) => String(item.loan_id) === String(loanId));
+  if (!loan) {
+    setLoansStatus('Loan record was not found.', 'error');
+    return;
+  }
+
+  const confirmed = window.confirm(`Record return for "${loan.books?.title || 'this book'}"?`);
+  if (!confirmed) {
+    return;
+  }
+
+  try {
+    setLoansButtonState(true);
+    setLoansStatus('Recording return...', 'info');
+
+    const today = new Date().toISOString().slice(0, 10);
+    const returnResponse = await supabase
+      .from('loans')
+      .update({ status: 'returned', return_date: today })
+      .eq('loan_id', Number(loanId));
+
+    if (returnResponse.error) {
+      throw returnResponse.error;
+    }
+
+    const currentBook = booksLookup.find((book) => Number(book.book_id) === Number(loan.book_id));
+    const nextAvailableCopies = Number(currentBook?.available_copies || 0) + 1;
+    const bookResponse = await supabase
+      .from('books')
+      .update({ available_copies: nextAvailableCopies })
+      .eq('book_id', Number(loan.book_id));
+
+    if (bookResponse.error) {
+      throw bookResponse.error;
+    }
+
+    setLoansStatus('Return recorded successfully.', 'success');
+    await loadLoans();
+  } catch (error) {
+    console.error('Loan return error:', error);
+    setLoansStatus(error.message || 'Could not record the return.', 'error');
+    setLoansTimestamp('Last updated: return failed.');
+  } finally {
+    setLoansButtonState(false);
+  }
+}
+
+function handleLoanTableClick(event) {
+  const button = event.target.closest('button[data-action]');
+  if (!button) {
+    return;
+  }
+
+  const { action, loanId } = button.dataset;
+  if (action === 'return' && loanId) {
+    recordReturn(loanId);
+  }
+}
+
 function initLoansPage() {
   if (!hasLoansPage()) {
     return;
@@ -369,6 +480,7 @@ function initLoansPage() {
   loansElements.form?.addEventListener('submit', issueLoan);
   loansElements.resetButton?.addEventListener('click', resetLoanForm);
   loansElements.refreshButton?.addEventListener('click', loadLoans);
+  loansElements.loansTableBody?.addEventListener('click', handleLoanTableClick);
 
   loadLoans();
 }
