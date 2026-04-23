@@ -120,5 +120,19 @@ At the current stage, the project can be opened directly in a browser by loading
 
 Later stages will connect the frontend to Supabase using JavaScript.
 
+## Supabase Configuration
+Supabase integration is prepared through a scaffolded frontend setup.
+
+### Setup files
+- `js/config.example.js` - sample configuration template
+- `js/config.js` - local configuration file for real project values
+- `js/supabase.js` - reusable Supabase client scaffold
+- `docs/supabase-setup.md` - setup instructions for the team
+
+### Important notes
+- never commit real project credentials to the repository
+- only use the public anon key in frontend code
+- keep service role keys out of the browser
+
 ## Current Status
-This repository currently contains the initial project structure and placeholder files for future development.
+This repository currently contains the initial project structure, shared layout, accessible homepage, responsive styling, and placeholder files for future development.
