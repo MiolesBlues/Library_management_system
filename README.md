@@ -35,17 +35,18 @@ The aim of this project is to design and develop a simple web application that i
 ## Current Pages
 - **Home / Dashboard** - responsive homepage with summary cards, quick actions, and user guidance
 - **Books** - shared layout and placeholder area for future CRUD features
-- **Members** - shared layout and placeholder area for future CRUD features
-- **Loans** - shared layout and placeholder area for future loan workflows
+- **Members** - working members management workspace with CRUD operations and search
+- **Loans** - working loans workspace with issue, return, and overdue tracking flows
 - **About** - project information placeholder page
 - **ERD** - standalone database diagram page in `database/ERD.html`
 
 ## Folder Structure
 - `pages/` - main HTML pages
-- `css/` - shared stylesheet used across the site, including the ERD page
+- `css/` - shared stylesheet used across the site, including the ERD page and management workspace styles
 - `js/` - JavaScript files and Supabase configuration helpers
 - `database/` - SQL setup script and ERD page
 - `docs/` - planning notes and supporting project documentation
+- `Database_plus_policies.sql` - extended SQL script including Row Level Security policies
 
 ## Database Tables
 The system is based on three main relational tables:
@@ -82,9 +83,10 @@ The system is based on three main relational tables:
 ## Database Assets
 The repository currently includes:
 - `database/database_setup.sql` - main SQL script for creating tables, indexes, sample data, and optional views
+- `Database_plus_policies.sql` - extended setup script with Row Level Security enabled and public policies for frontend access
 - `database/ERD.html` - browser-viewable ERD page rendered with Mermaid
 
-The SQL script also defines optional helper views:
+The SQL scripts define helper views such as:
 - `v_active_loans`
 - `v_overdue_loans`
 - `v_dashboard_summary`
@@ -98,6 +100,26 @@ The current frontend already includes:
 - homepage summary cards prepared for Supabase data
 - shared header branding with a LibraryMS logo block
 - ERD page styling moved into the shared stylesheet for consistency
+- reusable management workspace styles for forms, toolbars, tables, and status badges
+
+## Current Functional Areas
+### Members page
+The Members workspace currently supports:
+- loading members from Supabase
+- adding new member records
+- editing existing member records
+- deleting member records
+- searching by name, email, phone, or membership date
+- refreshing member data and showing last updated status
+
+### Loans page
+The Loans workspace currently supports:
+- loading books, members, and loans from Supabase
+- issuing new loan records
+- recording returns
+- automatic overdue status syncing on refresh
+- separate overdue loans table
+- active, overdue, and returned counters
 
 ## Team Roles
 ### Member 1 - Project Coordinator / Home Page Developer
@@ -134,7 +156,7 @@ To support teamwork and clear version tracking, all team members should:
 - upload progress weekly
 - work on their assigned sections
 - avoid overwriting another member's files without discussion
-- pull the latest changes before editing shared files such as `css/style.css` and page headers
+- pull the latest changes before editing shared files such as `css/style.css`, shared scripts, and page headers
 
 ## Running the Project
 At the current stage, the main website can be opened directly in a browser by loading the HTML files from the `pages/` folder.
@@ -149,6 +171,8 @@ Supabase integration is prepared through a scaffolded frontend setup.
 - `js/config.example.js` - sample configuration template
 - `js/config.js` - local configuration file for real project values
 - `js/supabase.js` - reusable Supabase client scaffold
+- `js/members.js` - Members page CRUD logic
+- `js/loans.js` - Loans page issue, return, and overdue tracking logic
 - `docs/supabase-setup.md` - setup instructions for the team
 
 ### Current dashboard data mapping
@@ -163,16 +187,21 @@ The homepage dashboard currently loads summary values using direct table counts:
 - only use the public anon key in frontend code
 - keep service role keys out of the browser
 - `js/config.js` should stay local if it contains real values
+- if Supabase RLS is enabled, use the policies from `Database_plus_policies.sql` or equivalent table policies
 
 ## Current Status
 This repository currently contains:
 - a shared multi-page frontend structure
 - a responsive and accessible homepage dashboard layout
-- placeholder pages for Books, Members, Loans, and About
+- a working Members page with CRUD operations and search
+- a working Loans page with issue, return, and overdue tracking flows
+- placeholder pages for Books and About
 - high contrast mode support
 - Supabase connection scaffolding
 - dashboard data-loading logic in `js/app.js`
+- page-specific logic in `js/members.js` and `js/loans.js`
 - a completed SQL setup script with sample data and optional views
+- an extended SQL script with public RLS policies
 - a standalone ERD page using Mermaid
 - unified shared branding in the page header
 - synced shared styling between the main site and the ERD page

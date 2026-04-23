@@ -40,17 +40,107 @@
       <section class="page-heading">
         <p class="section-label">Members Management</p>
         <h1>Members Page</h1>
-        <p class="page-text">This page will provide the interface for managing member records in the system.</p>
+        <p class="page-text">Add, update, and review member records for the library system.</p>
       </section>
 
-      <section class="placeholder-card">
-        <h2>Members CRUD Area</h2>
-        <p>Tables, forms, and update actions will be added in a later development stage.</p>
-        <ul class="integration-notes">
-          <li><strong>Planned section:</strong> members table with full name, email, phone, and membership date.</li>
-          <li><strong>Planned action:</strong> add member form.</li>
-          <li><strong>Planned action:</strong> edit and delete controls for each member record.</li>
-        </ul>
+      <section class="dashboard-section" aria-labelledby="members-workspace-title">
+        <div class="section-header">
+          <div>
+            <p class="section-label">Members Workspace</p>
+            <h2 id="members-workspace-title">Manage library members</h2>
+          </div>
+          <div class="dashboard-meta">
+            <p class="section-note">This page will connect to the <strong>members</strong> table in Supabase.</p>
+            <div class="dashboard-tools">
+              <button class="button-secondary dashboard-retry" id="refreshMembersButton" type="button">Refresh members</button>
+              <p class="dashboard-timestamp" id="membersTimestamp">Last updated: not loaded yet.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-status" id="membersStatus" role="status" aria-live="polite">
+          Members page is waiting for database connection.
+        </div>
+
+        <section class="management-grid" aria-label="Members tools">
+          <article class="management-card">
+            <div class="section-header compact-header">
+              <div>
+                <p class="section-label">Member Form</p>
+                <h3 id="memberFormTitle">Add a new member</h3>
+              </div>
+              <button class="button-secondary inline-action hidden" id="cancelMemberEditButton" type="button">Cancel edit</button>
+            </div>
+
+            <form id="memberForm" class="entity-form">
+              <input type="hidden" id="memberId" name="member_id" />
+              <div class="form-grid">
+                <label>
+                  <span>Full name</span>
+                  <input id="memberName" name="full_name" type="text" maxlength="255" required />
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input id="memberEmail" name="email" type="email" maxlength="255" required />
+                </label>
+                <label>
+                  <span>Phone</span>
+                  <input id="memberPhone" name="phone" type="text" maxlength="20" />
+                </label>
+                <label>
+                  <span>Membership date</span>
+                  <input id="membershipDate" name="membership_date" type="date" required />
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button class="button-primary" id="saveMemberButton" type="submit">Save member</button>
+                <button class="button-secondary" id="resetMemberButton" type="button">Clear form</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="management-card">
+            <div class="section-header compact-header">
+              <div>
+                <p class="section-label">Member Records</p>
+                <h3>Search and review members</h3>
+              </div>
+            </div>
+
+            <div class="records-toolbar">
+              <label class="search-field">
+                <span>Search</span>
+                <input id="memberSearchInput" type="search" placeholder="Search by name, email, or phone" />
+              </label>
+
+              <div class="summary-pills" aria-label="Members summary">
+                <p class="summary-pill"><span>Total</span><strong id="membersCount">0</strong></p>
+                <p class="summary-pill"><span>Visible</span><strong id="membersVisibleCount">0</strong></p>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data-table" aria-describedby="membersTableHelp">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Membership date</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="membersTableBody">
+                  <tr>
+                    <td colspan="5">Members will appear here after loading.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="table-help" id="membersTableHelp">Edit loads the form. Delete removes a member unless linked loans prevent it.</p>
+          </article>
+        </section>
       </section>
     </div>
   </main>
@@ -58,10 +148,14 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>Library Management System Project</p>
-      <p>Members module placeholder.</p>
+      <p>Members module workspace ready for CRUD.</p>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/members.js"></script>
 </body>
 </html>

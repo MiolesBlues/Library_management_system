@@ -53,18 +53,20 @@ Planned integration areas:
 - delete action controls
 
 ### Members page
-Planned integration areas:
+Implemented integration areas:
 - members list table
 - add member form
 - edit member form
 - delete action controls
+- member search and refresh workflow
 
 ### Loans page
-Planned integration areas:
+Implemented integration areas:
 - issue loan form
 - return book action
 - active loans table
 - overdue loans table
+- automatic overdue status sync on refresh
 
 ### Database area
 The SQL script already includes:
