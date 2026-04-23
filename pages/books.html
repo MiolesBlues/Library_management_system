@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Library Management System | Books</title>
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/books.css" />
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -12,13 +13,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
-        <a href="index.html" aria-label="Library Management System home">
-          <span class="brand-mark" aria-hidden="true">📚</span>
-          <span class="brand-text-group">
-            <span class="brand-name">LibraryMS</span>
-            <span class="brand-tagline">Smart library dashboard</span>
-          </span>
-        </a>
+        <a href="index.html">LibraryMS</a>
       </div>
       <nav class="site-nav" aria-label="Main navigation">
         <ul>
@@ -37,31 +32,117 @@
 
   <main id="main-content" class="page-main">
     <div class="container">
-      <section class="page-heading">
+
+      <section class="page-heading" aria-labelledby="books-title">
         <p class="section-label">Books Management</p>
-        <h1>Books Page</h1>
-        <p class="page-text">This page is reserved for viewing, adding, editing, and deleting books from the library database.</p>
+        <h1 id="books-title">Books</h1>
+        <p class="page-text">View all books in the library, add new records, or update and remove existing entries.</p>
       </section>
 
-      <section class="placeholder-card">
-        <h2>Books CRUD Area</h2>
-        <p>Forms, tables, and search functionality will be added here in a later step.</p>
-        <ul class="integration-notes">
-          <li><strong>Planned section:</strong> books table with title, author, genre, year, ISBN, and copies.</li>
-          <li><strong>Planned action:</strong> add new book form.</li>
-          <li><strong>Planned action:</strong> edit and delete controls for each record.</li>
-        </ul>
-      </section>
+      <!-- Toolbar -->
+      <div class="books-toolbar">
+        <input type="search" id="searchInput" placeholder="Search by title or author…" aria-label="Search books" />
+        <button class="button-primary" id="openAddModal" type="button">+ Add Book</button>
+      </div>
+
+      <!-- Status banner -->
+      <div class="books-status" id="booksStatus" role="status" aria-live="polite">
+        Loading books from database…
+      </div>
+
+      <!-- Books table -->
+      <div class="table-card">
+        <div class="table-scroll">
+          <table aria-label="Books list">
+            <thead>
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Year</th>
+                <th scope="col">ISBN</th>
+                <th scope="col">Available</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="booksTableBody">
+              <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--muted)">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>Library Management System Project</p>
-      <p>Books module placeholder.</p>
+      <p>Books module — Member 3.</p>
     </div>
   </footer>
 
-  <script src="../js/app.js"></script>
+  <!-- Add / Edit Modal -->
+  <div class="modal-overlay" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add Book</h2>
+        <button class="modal-close" id="closeModal" type="button" aria-label="Close">✕</button>
+      </div>
+      <input type="hidden" id="editBookId" />
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label for="fieldTitle">Title *</label>
+          <input type="text" id="fieldTitle" placeholder="e.g. The Great Gatsby" />
+        </div>
+        <div class="form-group">
+          <label for="fieldAuthor">Author *</label>
+          <input type="text" id="fieldAuthor" placeholder="e.g. F. Scott Fitzgerald" />
+        </div>
+        <div class="form-group">
+          <label for="fieldGenre">Genre</label>
+          <input type="text" id="fieldGenre" placeholder="e.g. Fiction" />
+        </div>
+        <div class="form-group">
+          <label for="fieldYear">Published Year</label>
+          <input type="number" id="fieldYear" placeholder="e.g. 1925" />
+        </div>
+        <div class="form-group">
+          <label for="fieldISBN">ISBN</label>
+          <input type="text" id="fieldISBN" placeholder="e.g. 978-3-16-148410-0" />
+        </div>
+        <div class="form-group">
+          <label for="fieldTotal">Total Copies</label>
+          <input type="number" id="fieldTotal" placeholder="e.g. 5" min="0" />
+        </div>
+        <div class="form-group">
+          <label for="fieldAvailable">Available Copies</label>
+          <input type="number" id="fieldAvailable" placeholder="e.g. 3" min="0" />
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="button-secondary" id="cancelModal" type="button">Cancel</button>
+        <button class="button-primary" id="saveBook" type="button">Save Book</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Modal -->
+  <div class="modal-overlay" id="deleteModal" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+    <div class="modal confirm-modal">
+      <div class="modal-header">
+        <h2 id="deleteTitle">Delete Book</h2>
+        <button class="modal-close" id="closeDeleteModal" type="button" aria-label="Close">✕</button>
+      </div>
+      <p id="deleteMessage">Are you sure you want to delete this book?</p>
+      <div class="form-actions">
+        <button class="button-secondary" id="cancelDelete" type="button">Cancel</button>
+        <button class="btn-danger" id="confirmDelete" type="button">Yes, Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/books.js"></script>
 </body>
 </html>
