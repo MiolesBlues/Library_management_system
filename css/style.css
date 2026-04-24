@@ -362,6 +362,12 @@ h2 {
   gap: 1rem;
 }
 
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
 .management-card {
   background: var(--surface);
   border: 2px solid var(--border);
@@ -620,6 +626,10 @@ button:focus-visible {
   }
 
   .management-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-grid {
     grid-template-columns: 1fr;
   }
 }
