@@ -70,10 +70,13 @@
                 <h3>Structured around three core tables</h3>
               </div>
             </div>
+            <p class="page-text">The database was designed to keep the system simple, connected, and easy to manage. Each table has a clear role, and relationships between them support borrowing workflows and dashboard summaries.</p>
             <ul class="integration-notes">
-              <li><strong>Books</strong> stores book information and copy availability</li>
-              <li><strong>Members</strong> stores registered user details</li>
-              <li><strong>Loans</strong> stores issue, return, and overdue records</li>
+              <li><strong>Books</strong> stores book information, categories, ISBN values, and copy availability</li>
+              <li><strong>Members</strong> stores registered user details such as name, email, phone, and membership date</li>
+              <li><strong>Loans</strong> stores issue, return, active, and overdue records linked to both books and members</li>
+              <li>foreign keys connect records correctly and help maintain data consistency</li>
+              <li>the SQL setup also includes sample data and helper views for reporting</li>
             </ul>
           </article>
         </div>
@@ -87,12 +90,13 @@
               <h2>Key functions of the system</h2>
             </div>
           </div>
+          <p class="page-text">The system was planned to cover the most important tasks needed in a small library workflow. It combines data management, user actions, and database support in one connected project structure.</p>
           <ul class="integration-notes">
-            <li>dashboard summary for books, members, and loans</li>
-            <li>book record management</li>
-            <li>member CRUD operations and search</li>
-            <li>loan issue, return, and overdue tracking</li>
-            <li>ERD and SQL setup for database support</li>
+            <li><strong>Dashboard:</strong> shows summary counts for books, members, active loans, and overdue items</li>
+            <li><strong>Books management:</strong> supports viewing, adding, editing, and deleting book records</li>
+            <li><strong>Members management:</strong> supports CRUD actions, search, and quick record updates</li>
+            <li><strong>Loans workflow:</strong> supports issuing books, recording returns, and monitoring overdue loans</li>
+            <li><strong>Database support:</strong> includes SQL setup files, sample data, and an ERD for structure planning</li>
           </ul>
         </article>
 
