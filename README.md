@@ -150,27 +150,27 @@ The Loans workspace currently supports:
 - active, overdue, and returned counters
 
 ## Team Roles
-### Member 1 - Project Coordinator / Home Page Developer
+### Member 1 - Project Coordinator / Home Page Developer A00034676
 - create and manage the GitHub repository
 - organise the folder structure
 - develop the Home / Dashboard page
 - handle project integration and final review
 - support team coordination
 
-### Member 2 - Database Designer / ERD and SQL
+### Member 2 - Database Designer / ERD and SQL A00020766 Galo Sammartino
 - design the database schema
 - create the ERD
 - write the SQL setup script
 - create the database tables in Supabase
 - add test and sample data
 
-### Member 3 - Books Page Developer
+### Member 3 - Books Page Developer A00041335 Khalid Mohamed
 - develop the Books page
 - implement CRUD operations for books
 - create forms, modals, and tables for books
 - test the page functionality
 
-### Member 4 - Members and Loans Developer
+### Member 4 - Members and Loans Developer A00042856 Arsen Pariienko
 - develop the Members page
 - develop the Loans page
 - implement member CRUD operations
