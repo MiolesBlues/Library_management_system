@@ -164,13 +164,13 @@ The Loans workspace currently supports:
 - create the database tables in Supabase
 - add test and sample data
 
-### Member 3 - Books Page Developer - A00041335 - Khalid Mohamed- 4orbless
+### Member 3 - Books Page Developer - A00041335 - Khalid Mohamed - 4orbless
 - develop the Books page
 - implement CRUD operations for books
 - create forms, modals, and tables for books
 - test the page functionality
 
-### Member 4 - Members and Loans Developer A00042856 Arsen Pariienko
+### Member 4 - Members and Loans Developer - A00042856 - Arsen Pariienko - sxwrpv
 - develop the Members page
 - develop the Loans page
 - implement member CRUD operations
