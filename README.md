@@ -150,7 +150,7 @@ The Loans workspace currently supports:
 - active, overdue, and returned counters
 
 ## Team Roles
-### Member 1 - Project Coordinator / Home Page Developer A00034676
+### Member 1 - Project Coordinator / Home Page Developer A00034676 Vit Vladyslav MiolesBlues
 - create and manage the GitHub repository
 - organise the folder structure
 - develop the Home / Dashboard page
